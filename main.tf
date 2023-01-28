@@ -15,3 +15,11 @@ module "ec2" {
   subnet_ids = [module.vpc.public_subnets]
   create_eip = true
 }
+
+module "sg" {
+  source = "github.com/chuleh/tf-aws-sg-module.git"
+
+  create = true
+  create_ingress_rule = false
+
+}
