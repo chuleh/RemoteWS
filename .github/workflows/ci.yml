@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: echo "triggered by ${{ github.event.name }}"
-  lint:
+  terraform-plan:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -18,7 +18,7 @@ jobs:
     - name: "set up terraform cli"
       uses: hashicorp/setup-terraform@v2
 
-    - name: "run terraform fmt"
+    - name: "run terraform init && plan"
       run: |
         echo "$PWD"
-        terraform fmt
+        terraform init
