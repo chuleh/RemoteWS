@@ -10,5 +10,5 @@ module "vpc" {
 
 module "ec2" {
   source = "git@github.com:chuleh/tf-aws-ec2-module.git"
-  
+  ami = "ami-0ff8a91507f77f867"
 }
