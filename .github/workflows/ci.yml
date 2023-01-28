@@ -9,7 +9,7 @@ jobs:
   base-info:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "triggered by ${{ github.event.name }}
+    - run: echo "triggered by ${{ github.event.name }}"
   lint:
     runs-on: ubuntu-latest
     steps:
