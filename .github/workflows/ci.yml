@@ -18,7 +18,10 @@ jobs:
     - name: "set up terraform cli"
       uses: hashicorp/setup-terraform@v2
 
-    - name: "run terraform init && plan"
+    - name: "run terraform init"
       run: |
         echo "$PWD"
         terraform init
+
+    - name: "run terraform plan"
+      run: terraform plan
