@@ -1,1 +1,24 @@
-# TODO
+---
+name: Terraform Lint
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  base-info:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "triggered by ${{ github.event.name }}
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: "set up terraform cli"
+      uses: hashicorp/setup-terraform@v2
+
+    - name: "run terraform fmt"
+      run: |
+        echo "$PWD"
+        terraform fmt
