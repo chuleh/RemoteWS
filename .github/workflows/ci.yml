@@ -41,7 +41,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: "run terraform init"
-      run: terraform init --backend-config="role_arn=${{ secrets.AWS_ARN }}" --backend-config="bucket=${{ secrets.AWS_BUCKET }}" --backend-config="encrypt=true" --backend-config="key=${{ secrets.AWS_KEY }}" --backend-config="region=${{ secrets.AWS_REGION }}"
+      run: terraform init -backend-config="role_arn=${{ secrets.AWS_ARN }}" -backend-config="bucket=${{ secrets.AWS_BUCKET }}" -backend-config="encrypt=true" -backend-config="key=${{ secrets.AWS_KEY }}" -backend-config="region=${{ secrets.AWS_REGION }}"
 
 
 #  terraform-plan:
