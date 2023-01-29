@@ -19,7 +19,7 @@ module "ec2" {
 module "sg" {
   source = "github.com/chuleh/tf-aws-sg-module.git"
 
-  create = true
+  create              = true
   create_ingress_rule = false
 
 }
