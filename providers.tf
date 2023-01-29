@@ -7,7 +7,8 @@ terraform {
     }
     backend "s3" {
         bucket = "remotews-tf-gh-actions"
-        key = "terraform.tftstate"
+        encrypt = true
+        key = "state.tftstate"
         region = "us-east-1"
     }
 }
