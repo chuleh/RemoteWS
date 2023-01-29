@@ -15,23 +15,37 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: AWS Configure
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.AWS_ARN }}
           aws-region: us-east-1
-      - run: aws sts get-caller-identity
+
+  terraform-setup:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+  set-up-tf-cli:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: "set up terraform cli"
+      uses: hashicorp/setup-terraform@v2
+
+  tf-init:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: "run terraform init"
+      run: terraform init
 
 #  terraform-plan:
 #    runs-on: ubuntu-latest
 #    steps:
-#    - uses: actions/checkout@v2
-#
-#    - name: "set up terraform cli"
-#      uses: hashicorp/setup-terraform@v2
-#
-#    - name: "run terraform init"
-#      run: terraform init
-#
+#    - uses: actions/checkout@v3
 #    - name: "run terraform plan"
 #      run: terraform plan
