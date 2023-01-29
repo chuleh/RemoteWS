@@ -5,26 +5,31 @@ on:
     branches:
       - "main"
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   aws-config:
     runs-on: ubuntu-latest
     steps:
-      - name: aws creds
+      - name: AWS Configure
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{secrets.AWS_ARN}}
           aws-region: us-east-1
+      - run: aws sts get-caller-identity
 
-  terraform-plan:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: "set up terraform cli"
-      uses: hashicorp/setup-terraform@v2
-
-    - name: "run terraform init"
-      run: terraform init
-
-    - name: "run terraform plan"
-      run: terraform plan
+#  terraform-plan:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#
+#    - name: "set up terraform cli"
+#      uses: hashicorp/setup-terraform@v2
+#
+#    - name: "run terraform init"
+#      run: terraform init
+#
+#    - name: "run terraform plan"
+#      run: terraform plan
