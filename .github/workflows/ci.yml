@@ -6,10 +6,15 @@ on:
       - "main"
 
 jobs:
-  base-info:
+  aws-config:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "triggered by ${{ github.event.name }}"
+      - name: aws creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{secret.AWS_ARN}}
+          aws-region: us-east-1
+
   terraform-plan:
     runs-on: ubuntu-latest
     steps:
