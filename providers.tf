@@ -10,6 +10,5 @@ terraform {
         encrypt = true
         key = "terraform.tftstate"
         region = "us-east-1"
-        role_arn = ${{ secrets.AWS_ARN }}
     }
 }
