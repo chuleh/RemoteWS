@@ -5,4 +5,9 @@ terraform {
             version = "~> 4.0"
         }
     }
+    backend "s3" {
+        bucket = "remotews-tf-gh-actions"
+        key = "terraform.tftstate"
+        region = "us-east-1"
+    }
 }
