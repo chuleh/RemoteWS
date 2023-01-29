@@ -17,6 +17,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           role-to-assume: ${{ secrets.AWS_ARN }}
+          aws-region: us-east-1
       - run: aws sts get-caller-identity
 
 #  terraform-plan:
