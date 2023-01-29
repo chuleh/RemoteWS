@@ -8,7 +8,8 @@ terraform {
     backend "s3" {
         bucket = "remotews-tf-gh-actions"
         encrypt = true
-        key = "state.tftstate"
+        key = "terraform.tftstate"
         region = "us-east-1"
+        role_arn = ${{ secrets.AWS_ARN }}
     }
 }
