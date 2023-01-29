@@ -14,10 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: AWS Configure
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          role-to-assume: ${{secrets.AWS_ARN}}
-          aws-region: us-east-1
+          role-to-assume: ${{ secrets.AWS_ARN }}
       - run: aws sts get-caller-identity
 
 #  terraform-plan:
