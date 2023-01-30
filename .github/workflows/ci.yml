@@ -22,23 +22,24 @@ jobs:
           role-to-assume: ${{ secrets.AWS_ARN }}
           aws-region: us-east-1
 
+            #  terraform-setup:
+            #    runs-on: ubuntu-latest
+            #    steps:
+            #    - uses: actions/checkout@v3
+            #
+            #  set-up-tf-cli:
+            #    runs-on: ubuntu-latest
+            #    steps:
+            #    - uses: actions/checkout@v3
+
   terraform-setup:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
-  set-up-tf-cli:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
     - name: "set up terraform cli"
       uses: hashicorp/setup-terraform@v2
 
   tf-init:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      #- uses: actions/checkout@v3
 
     - name: "run terraform init"
       run: terraform init -backend-config="profile=${{ secrets.AWS_PROFILE }}" -backend-config="role_arn=${{ secrets.AWS_ARN }}" -backend-config="bucket=${{ secrets.AWS_BUCKET }}" -backend-config="encrypt=true" -backend-config="key=${{ secrets.AWS_KEY }}" -backend-config="region=${{ secrets.AWS_REGION }}" -backend=true
