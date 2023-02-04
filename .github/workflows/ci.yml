@@ -37,7 +37,10 @@ jobs:
     - name: Prompt for approval
       id: manual-approval
       uses: trstringer/manual-approval@v1
-      if: success()
+      with:
+        approvers: chuleh
+        minimum-approvals: 1
+        exclude-workflow-initiator-as-approver: false
 
     - name: Terraform apply
       if: steps.manual-approval.outputs.approved == 'true'
