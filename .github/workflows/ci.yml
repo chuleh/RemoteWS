@@ -1,47 +1,32 @@
----
-name: AWS config && Terraform Plan 
+name: Assume Role in AWS and Run Terraform Init with S3 Backend
+
 on:
   pull_request:
-    branches:
-      - "main"
-
-permissions:
-  id-token: write
-  contents: read
+    branches: [ main ]
 
 jobs:
-  aws-config:
+  assume-role-and-run-terraform:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: AWS Configure
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_ARN }}
-          aws-region: us-east-1
+    - name: Assume role
+      uses: aws-actions/sts@v1
+      with:
+        role-arn: ${{ secrets.AWS_ARN }}
+        role-session-name: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+        aws_region: us-east-1 
 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.14.10
 
-  terraform-setup:
-    needs: aws-config
-    runs-on: ubuntu-latest
-    steps:
-    - name: "set up terraform cli"
-      uses: hashicorp/setup-terraform@v2
+    - name: Terraform init with S3 backend
+      run: terraform init -input=false -backend-config="bucket=${AWS_BUCKET}" -backend-config="key=${AWS_KEY}" -backend-config="region=${AWS_REGION}"
 
-  tf-init:
-    needs: terraform-setup
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: "run terraform init"
-      run: terraform init  -backend-config="role_arn=${{ secrets.AWS_ARN }}" -backend-config="bucket=${{ secrets.AWS_BUCKET }}" -backend-config="encrypt=true" -backend-config="key=${{ secrets.AWS_KEY }}" -backend-config="region=${{ secrets.AWS_REGION }}"
-
-  tf-plan:
-    needs: tf-init
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: "run terraform plan"
-      run: terraform plan
+    - name: Terraform plan
+      run: |
+        terraform plan
