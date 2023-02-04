@@ -24,12 +24,14 @@ jobs:
 
 
   terraform-setup:
+    needs: aws-config
     runs-on: ubuntu-latest
     steps:
     - name: "set up terraform cli"
       uses: hashicorp/setup-terraform@v2
 
   tf-init:
+    needs: terraform-setup
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
