@@ -1,0 +1,49 @@
+name: Assume Role in AWS and Run Terraform Init with S3 Backend
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  id-token: write
+  contents: read
+  issues: write
+
+jobs:
+  assume-role-and-run-terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Assume role
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+        aws-region: us-east-1 
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.14.10
+
+    - name: Terraform init with S3 backend
+      run: terraform init -input=false -backend-config="bucket=${{ secrets.AWS_BUCKET }}" -backend-config="key=${{secrets.AWS_KEY}}" -backend-config="region=${{secrets.AWS_REGION}}"
+
+    - name: Terraform plan
+      run: |
+        terraform plan
+
+    - name: Prompt for approval
+      id: manual-approval
+      uses: trstringer/manual-approval@v1
+      with:
+        secret: ${{ github.TOKEN }}
+        approvers: ${{ github.actor }}
+        minimum-approvals: 1
+        exclude-workflow-initiator-as-approver: false
+
+    - name: Terraform apply
+      if: steps.manual-approval.outputs.approved == 'true'
+      run: terraform apply -auto-approve
