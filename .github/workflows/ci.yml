@@ -15,7 +15,7 @@ jobs:
     - name: Assume role
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        role-arn: ${{ secrets.AWS_ARN }}
+        role-to-assume: ${{ secrets.AWS_ARN }}
         aws-region: us-east-1 
 
     - name: Setup Terraform
