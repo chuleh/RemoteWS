@@ -33,3 +33,12 @@ jobs:
     - name: Terraform plan
       run: |
         terraform plan
+
+    - name: Prompt for approval
+      id: manual-approval
+      uses: actions/manual-approval@v1
+      if: success()
+
+    - name: Terraform apply
+      if: steps.manual-approval.outputs.approved == 'true'
+      run: terraform apply -auto-approve

@@ -12,7 +12,7 @@ module "ec2" {
   source = "github.com/chuleh/tf-aws-ec2-module.git"
 
   ami        = "ami-0ff8a91507f77f867"
-  subnet_ids = ["module.vpc.public_subnets.id"]
+  subnet_ids = [module.vpc.public_subnets.id]
   create_eip = true
 }
 
