@@ -19,6 +19,8 @@ module "ec2" {
 module "sg" {
   source = "github.com/chuleh/tf-aws-sg-module.git"
 
+  name                = "remotews-sg"
+  vpc_id              = module.vpc.vpc_id
   create              = true
   create_ingress_rule = false
 
