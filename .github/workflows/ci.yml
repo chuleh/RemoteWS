@@ -37,6 +37,7 @@ jobs:
       run: terraform init  -backend-config="role_arn=${{ secrets.AWS_ARN }}" -backend-config="bucket=${{ secrets.AWS_BUCKET }}" -backend-config="encrypt=true" -backend-config="key=${{ secrets.AWS_KEY }}" -backend-config="region=${{ secrets.AWS_REGION }}"
 
   tf-plan:
+    needs: tf-init
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
