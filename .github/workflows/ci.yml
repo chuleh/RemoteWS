@@ -28,7 +28,7 @@ jobs:
         terraform_version: 0.14.10
 
     - name: Terraform init with S3 backend
-      run: terraform init -input=false -backend-config="bucket=${AWS_BUCKET}" -backend-config="key=${AWS_KEY}" -backend-config="region=${AWS_REGION}"
+      run: terraform init -input=false -backend-config="bucket=${{ secrets.AWS_BUCKET }}" -backend-config="key=${{secrets.AWS_KEY}}" -backend-config="region=${{secrets.AWS_REGION}}"
 
     - name: Terraform plan
       run: |
