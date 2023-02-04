@@ -38,7 +38,8 @@ jobs:
       id: manual-approval
       uses: trstringer/manual-approval@v1
       with:
-        approvers: chuleh
+        secret: ${{ github.TOKEN }}
+        approvers: ${{ github.actor }}
         minimum-approvals: 1
         exclude-workflow-initiator-as-approver: false
 
