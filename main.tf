@@ -23,5 +23,4 @@ module "sg" {
   vpc_id              = module.vpc.vpc_id
   create              = true
   create_ingress_rule = false
-
 }
